@@ -19,3 +19,10 @@ http://localhost:8080/
 or 
 
 http://localhost:8080/first
+
+
+**참고 홈페이지
+1. https://addio3305.tistory.com/             -- 기본으로 여기서 많이 참고 했어요! 
+
+2. https://doublesprogramming.tistory.com/178
+
