@@ -13,4 +13,9 @@ db 설정방법(기본은 오라클로 설정했어요)
 1. document -> sql -> fs_1 쿼리로 테이블 생성하시면 되요!
 
 
+처음 페이지
+http://localhost:8080/
+ 
+or 
 
+http://localhost:8080/first
