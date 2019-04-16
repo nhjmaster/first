@@ -22,6 +22,4 @@ public class MemberServiceImpl implements MemberService{
 		Map<String, Object> resultMap = memberDAO.loginCheck(map);
 		return resultMap;
 	}
-
-	
 }

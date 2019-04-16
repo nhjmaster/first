@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -22,34 +25,49 @@ public class MemberController {
 	@Resource(name="memberService")
 	private MemberService memberService;
 	
+	@RequestMapping(value="home.do")
+    public ModelAndView home(CommandMap commandMap) throws Exception{
+    	ModelAndView mv = new ModelAndView("/member/home");
+    	return mv;
+    }
+	
 	@RequestMapping(value="login.do")
     public ModelAndView login(CommandMap commandMap) throws Exception{
     	ModelAndView mv = new ModelAndView("/member/login"); 
     	return mv;
     }
 	
-	// 로그인 처리
-	@RequestMapping("loginCheck.do")
-	public ModelAndView loginCheck(CommandMap commandMap) throws Exception{
-		ModelAndView mv = new ModelAndView();
-		
-		// 두가지 방법으로 가져올 수 있음.
-		String userId = (String) commandMap.get("userId");
-		String userPw = (String) commandMap.getMap().get("userPw");
-		System.out.println("ID: " + userId +  "      userPw: " +  userPw);
-		
-		Map<String, Object> result = memberService.loginCheck(commandMap.getMap());
-		
-		if(result != null){
-			mv.setViewName("/sample/boardList");
-			mv.addObject("msg", "success");
-		}else{
-			mv.setViewName("/member/login");
-			mv.addObject("msg", "fail");
-		}
-		
+	@RequestMapping(value="signUp.do")
+    public ModelAndView signUp(CommandMap commandMap) throws Exception{
+    	ModelAndView mv = new ModelAndView("/member/signUp"); 
     	return mv;
-		
-	}
+    }
+	
+	// 게시판 이동
+	@RequestMapping(value="boardList.do")
+    public ModelAndView boardList(HttpServletRequest request, HttpServletResponse response, HttpSession session, CommandMap commandMap) throws Exception{
+    	ModelAndView mv = new ModelAndView("/sample/boardList");    	
+    	
+    	String sessionId = (String) session.getAttribute("userId");
+    	String sessionPw = (String) session.getAttribute("userPw");
+    	
+    	System.out.println("Session ID: " + sessionId);
+    	System.out.println("Session PW: " + sessionPw);
+    	
+    	return mv;
+    }
+	
+	// 로그아웃
+	@RequestMapping(value="logout.do")
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response, HttpSession session, CommandMap commandMap) throws Exception{
+    	ModelAndView mv = new ModelAndView("/member/login"); 
+    	
+    	// 세션 정보 제거
+    	session.removeAttribute("userId");
+    	session.removeAttribute("userPw");
+    	System.out.println("session" + session);
+    	
+    	return mv;
+    }
 	
 }
